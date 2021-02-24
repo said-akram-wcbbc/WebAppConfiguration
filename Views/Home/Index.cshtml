@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+</div>
+<div>
+    <ul>
+        <li><b>Display Name</b>: @(ViewBag.Displayname)</li>
+        <li>
+            <b>Adapters</b>:
+            <ul>
+                @foreach (var adapter in ViewBag.Adapters)
+                {
+                    <li>@adapter</li>
+                }
+            </ul>
+        </li>
+    </ul>
+</div>
