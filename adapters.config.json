@@ -1,0 +1,55 @@
+﻿{
+  "Adapter": {
+    "azdo": {
+      "displayName": "Azure DevOps",
+      "adapterPath": "azdo.adapter.ps1",
+      "commands": {
+        "createRepository": {
+          "orgName": [
+            "wcbbc",
+            "wcbbc-sandbox"
+          ],
+          "projectName": [
+            "IT-App-Delivery"
+          ],
+          "applicationType": [
+            "Web",
+            "Web + API"
+          ],
+          "applicationName": "Enter Application Name"
+        },
+        "toggleOutagePage": {
+          "applicationName": [
+            "Full Outage",
+            "Prevention Apps",
+            "Sutainment Apps"
+          ]
+        }
+      }
+    },
+    "azure": {
+      "displayName": "Azure Portal Automation",
+      "adapterPath": "azure.adapter.ps1",
+      "commands": {
+        "createResourceGroup": {
+          "subscription": [
+            "Development"
+          ],
+          "applicationName": "Enter Application Name"
+        },
+        "blobStorageAccess": {
+          "subscription": [
+            "Development"
+          ],
+          "storageAccountName": "Enter Storage Account Name",
+          "expiry": [
+            "30 Minutes",
+            "8 Hours",
+            "Never"
+          ],
+          "reason": "Provide Reason for Access Request"
+        }
+      }
+    }
+  }
+}

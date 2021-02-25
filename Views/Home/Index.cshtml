@@ -1,4 +1,6 @@
-﻿@{
+﻿@model WebAppConfiguration.Models.HomeViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -7,13 +9,13 @@
 </div>
 <div>
     <ul>
-        <li><b>Display Name</b>: @(ViewBag.Displayname)</li>
+        <li><b>Display Name</b>: @Model.PortalOptions.DisplayName</li>
         <li>
             <b>Adapters</b>:
             <ul>
-                @foreach (var adapter in ViewBag.Adapters)
+                @foreach (var adapter in Model.Adapters)
                 {
-                    <li>@adapter</li>
+                    <li>@adapter.DisplayName</li>
                 }
             </ul>
         </li>

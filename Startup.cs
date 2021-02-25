@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAppConfiguration.Models;
 
 namespace WebAppConfiguration
 {
@@ -23,6 +24,11 @@ namespace WebAppConfiguration
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<PortalOptions>(Configuration.GetSection(PortalOptions.Portal));
+
+            services.Configure<AdapterOptions>(AdapterOptions.AzDo, Configuration.GetSection("Adapter:azdo"));
+            services.Configure<AdapterOptions>(AdapterOptions.Azure, Configuration.GetSection("Adapter:azure"));
+
             services.AddControllersWithViews();
         }
 

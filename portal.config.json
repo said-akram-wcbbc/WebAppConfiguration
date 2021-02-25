@@ -1,7 +1,9 @@
 ﻿{
-  "displayname": "WorkSafeBC Service Portal",
-  "adapters": [
-    "azdo",
-    "azure"
-  ]
+  "Portal": {
+    "displayname": "WorkSafeBC Service Portal",
+    "adapters": [
+      "azdo",
+      "azure"
+    ]
+  }
 }

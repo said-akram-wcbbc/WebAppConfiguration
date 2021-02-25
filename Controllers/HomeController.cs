@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using WebAppConfiguration.Models;
 
 namespace WebAppConfiguration.Controllers
@@ -13,20 +10,26 @@ namespace WebAppConfiguration.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IConfiguration _configuration;
+        private readonly PortalOptions _portalOptions;
+        private readonly IEnumerable<AdapterOptions> _adapterOptions;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
+        public HomeController(ILogger<HomeController> logger,
+            IOptions<PortalOptions> portalOptions,
+            IOptionsSnapshot<AdapterOptions> adapterOptionsAccessor)
         {
             _logger = logger;
-            _configuration = configuration;
+            _portalOptions = portalOptions.Value;
+            _adapterOptions = GetAdpters(_portalOptions?.Adapters, adapterOptionsAccessor);
         }
 
         public IActionResult Index()
         {
-            ViewBag.Displayname = _configuration["displayname"];
-            ViewBag.Adapters = GetConfigurationArraySection(_configuration, "adapters");
-
-            return View();
+            var viewModel = new HomeViewModel
+            {
+                PortalOptions = _portalOptions,
+                Adapters = _adapterOptions
+            };
+            return View(viewModel);
         }
 
         public IActionResult Privacy()
@@ -40,14 +43,17 @@ namespace WebAppConfiguration.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        private IEnumerable<string> GetConfigurationArraySection(IConfiguration configuration, string sectionName)
+        private IEnumerable<AdapterOptions> GetAdpters(IEnumerable<string> adapterNames,
+            IOptionsSnapshot<AdapterOptions> adapterOptionsAccessor)
         {
-            if (string.IsNullOrEmpty(sectionName) || configuration == null)
+            var adapters = new List<AdapterOptions>();
+
+            foreach (var adapter in adapterNames)
             {
-                return new List<string>();
+                adapters.Add(adapterOptionsAccessor.Get(adapter));
             }
 
-            return configuration.GetSection(sectionName)?.GetChildren()?.Select(c => c.Value);
+            return adapters;
         }
     }
 }

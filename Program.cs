@@ -20,9 +20,8 @@ namespace WebAppConfiguration
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    config.AddJsonFile("portal.config.json",
-                        optional: true,
-                        reloadOnChange: true);
+                    config.AddJsonFile("portal.config.json", true, true)
+                          .AddJsonFile("adapters.config.json", true, true);
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
